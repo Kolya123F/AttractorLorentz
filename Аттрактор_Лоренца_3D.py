@@ -98,7 +98,7 @@ animation = FuncAnimation(
     repeat=True   # Зациклить анимацию
 )
 
-#animation.save('lorenz_attractor.gif', writer='pillow', fps=60)  # Для GIF
+animation.save('lorenz_attractor.gif', writer='pillow', fps=30)  # Для GIF
 #animation.save('lorenz_attractor.mp4', writer='ffmpeg', fps=30)  # Для MP4
 plt.legend()
 plt.show()

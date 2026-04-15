@@ -31,7 +31,7 @@ number = 40000
 T = 100
 
 #Параметры системы
-a, b, c = 0.2, 0.2, 3
+a, b, c = 0.2, 0.5, 5.7
 
 #Решаем численно систему диффуром методом Рунге-Кутта
 def solve(a, b, c, x0, y0, z0, number, T):
@@ -92,7 +92,7 @@ def update(frame):
 animation = FuncAnimation(
     fig=fig, 
     func=update, 
-    frames=range(0, number, 50), 
+    frames=range(0, number, 80), 
     interval=20,  # Интервал между кадрами в мс
     blit=False,   # blit=True может вызвать проблемы в 3D, оставляем False
     repeat=True   # Зациклить анимацию

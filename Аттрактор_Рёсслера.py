@@ -20,7 +20,7 @@ y_0 = 1
 z_0 = 1
 
 #Число точек
-number = 5000
+number = 50000
 
 #Длительность
 T = 100
@@ -51,25 +51,36 @@ def solve(a, b, c, x0, y0, z0, number, T):
 
 t, x, y, z = solve(a, b, c, x_0, y_0, z_0, number, T)
 
-fig = plt.figure(figsize=(10, 8))
-ax = fig.add_subplot()
+fig, ax = plt.subplots(2, 1, figsize=(10, 10))
 
-ax.set_xlabel('t')
-ax.set_ylabel('x, y, z')
+ax[0].set_xlabel('t')
+ax[0].set_ylabel('x, y, z')
 
 lim_min = np.min([np.min(x), np.min(y), np.min(z)])
 lim_max = np.max([np.max(x), np.max(y), np.max(z)])
 
-ax.set_ylim([lim_min, lim_max])
-ax.set_xlim([0, T])
+ax[0].set_ylim([lim_min, lim_max])
+ax[0].set_xlim([0, T])
 
-animated_line_1, = ax.plot([], [], linewidth=0.5, linestyle='--', color='blue')
-animated_line_2, = ax.plot([], [], linewidth=0.5, linestyle='--', color='green')
-animated_line_3, = ax.plot([], [], linewidth=0.5, linestyle='--', color='red')
+animated_line_1, = ax[0].plot([], [], linewidth=0.5, linestyle='--', color='blue')
+animated_line_2, = ax[0].plot([], [], linewidth=0.5, linestyle='--', color='green')
+animated_line_3, = ax[0].plot([], [], linewidth=0.5, linestyle='--', color='red')
 
-point_1, = ax.plot([], [], 'bo', markersize=3)
-point_2, = ax.plot([], [], 'go', markersize=3)
-point_3, = ax.plot([], [], 'ro', markersize=3)
+point_1, = ax[0].plot([], [], 'bo', markersize=3)
+point_2, = ax[0].plot([], [], 'go', markersize=3)
+point_3, = ax[0].plot([], [], 'ro', markersize=3)
+
+fourier_x = np.fft.fft(x, axis = 0)
+fourier_y = np.fft.fft(y, axis = 0)
+fourier_z = np.fft.fft(z, axis = 0)
+
+amplitude_spectrum_x = np.abs(fourier_x)
+amplitude_spectrum_y = np.abs(fourier_y)
+amplitude_spectrum_z = np.abs(fourier_z)
+
+frequencies_x = np.fft.fftfreq(len(x), t[1] - t[0])
+frequencies_y = np.fft.fftfreq(len(y), t[1] - t[0])
+frequencies_z = np.fft.fftfreq(len(z), t[1] - t[0])
 
 def update(frame):
     animated_line_1.set_data(t[:frame], x[:frame])
@@ -80,7 +91,7 @@ def update(frame):
     point_2.set_data([t[frame]], [y[frame]])
     point_3.set_data([t[frame]], [z[frame]])
     
-    ax.set_title(f'Аттрактор Лоренца: $\sigma = 10 \\text{{, }} r = 28 \\text{{, }} b = 8/3$\nВремя: {t[frame]:.2f} из {t[-1]:.1f}')
+    #ax.set_title(f'Аттрактор Лоренца: $\sigma = 10 \\text{{, }} r = 28 \\text{{, }} b = 8/3$\nВремя: {t[frame]:.2f} из {t[-1]:.1f}')
     
     return animated_line_1, point_1, animated_line_2, point_2, animated_line_3, point_3
 
@@ -89,12 +100,17 @@ animation = FuncAnimation(
     func=update, 
     frames=range(0, number, 30), 
     interval=20,  # Интервал между кадрами в мс
-    blit=False,   # blit=True может вызвать проблемы в 3D, оставляем False
-    repeat=True   # Зациклить анимацию
+    blit=True,   # blit=True может вызвать проблемы в 3D, оставляем False
+    repeat=False   # Зациклить анимацию
 )
 
 #animation.save('lorenz_attractor.gif', writer='pillow', fps=60)  # Для GIF
 #animation.save('lorenz_attractor.mp4', writer='ffmpeg', fps=30)  # Для MP4
-plt.legend()
-plt.grid()
+ax[1].plot(frequencies_x, amplitude_spectrum_x, 'b-', alpha=0.7, label='Преобразование Фурье от x(t)', linewidth=0.5)
+ax[1].plot(frequencies_y, amplitude_spectrum_y, 'g-', alpha=0.7, label='Преобразование Фурье от y(t)', linewidth=0.5)
+ax[1].plot(frequencies_z, amplitude_spectrum_z, 'r-', alpha=0.7, label='Преобразование Фурье от z(t)', linewidth=0.5)
+ax[1].legend()
+ax[1].grid()
+ax[0].legend()
+ax[0].grid()
 plt.show()
