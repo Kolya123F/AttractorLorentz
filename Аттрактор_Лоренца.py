@@ -52,16 +52,50 @@ def solve(sigma, r, b, x0, y0, z0, number, T):
 
 t, x, y, z = solve(sigma, r, b, x_0, y_0, z_0, number, T)
 
-#Решение
-fig, ax = plt.subplots(1, 1, figsize=(14, 6))
-ax.plot(t, x, linewidth=0.3, color='blue', alpha=0.7, label = 'x')
-ax.plot(t, y, linewidth=0.3, color='red', alpha=0.7, label = 'y')
-ax.plot(t, z, linewidth=0.3, color='black', alpha=0.7, label = 'z')
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot()
 
 ax.set_xlabel('t')
 ax.set_ylabel('x, y, z')
-ax.set_title('Аттактор Лоренца')
-ax.grid(True, alpha=0.3)
 
-ax.legend()
+lim_min = np.min([np.min(x), np.min(y), np.min(z)])
+lim_max = np.max([np.max(x), np.max(y), np.max(z)])
+
+ax.set_ylim([lim_min, lim_max])
+ax.set_xlim([0, T])
+
+animated_line_1, = ax.plot([], [], linewidth=0.5, linestyle='--', color='blue')
+animated_line_2, = ax.plot([], [], linewidth=0.5, linestyle='--', color='green')
+animated_line_3, = ax.plot([], [], linewidth=0.5, linestyle='--', color='red')
+
+point_1, = ax.plot([], [], 'bo', markersize=3)
+point_2, = ax.plot([], [], 'go', markersize=3)
+point_3, = ax.plot([], [], 'ro', markersize=3)
+
+def update(frame):
+    animated_line_1.set_data(t[:frame], x[:frame])
+    animated_line_2.set_data(t[:frame], y[:frame])
+    animated_line_3.set_data(t[:frame], z[:frame])
+    
+    point_1.set_data([t[frame]], [x[frame]])
+    point_2.set_data([t[frame]], [y[frame]])
+    point_3.set_data([t[frame]], [z[frame]])
+    
+    ax.set_title(f'Аттрактор Лоренца: $\sigma = 10 \\text{{, }} r = 28 \\text{{, }} b = 8/3$\nВремя: {t[frame]:.2f} из {t[-1]:.1f}')
+    
+    return animated_line_1, point_1, animated_line_2, point_2, animated_line_3, point_3
+
+animation = FuncAnimation(
+    fig=fig, 
+    func=update, 
+    frames=range(0, number, 30), 
+    interval=20,  # Интервал между кадрами в мс
+    blit=False,   # blit=True может вызвать проблемы в 3D, оставляем False
+    repeat=True   # Зациклить анимацию
+)
+
+#animation.save('lorenz_attractor.gif', writer='pillow', fps=60)  # Для GIF
+#animation.save('lorenz_attractor.mp4', writer='ffmpeg', fps=30)  # Для MP4
+plt.legend()
+plt.grid()
 plt.show()
