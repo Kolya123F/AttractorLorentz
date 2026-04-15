@@ -10,7 +10,6 @@ x_02 = 1 + 0.00001
 y_02 = 1
 z_02 = 1
 
-
 number = 40000
 
 x1 = np.zeros(number)
@@ -21,7 +20,7 @@ x2 = np.zeros(number)
 y2 = np.zeros(number)
 z2 = np.zeros(number)
 
-sol1 = np.vstack([x1, y1, z1])
+sol1 = np.vstack(([x1, y1, z1]))
 sol2 = np.vstack([x2, y2, z2])
 
 t = np.linspace(0, 100, number)
@@ -120,8 +119,8 @@ animation = FuncAnimation(
     repeat=True   # Зациклить анимацию
 )
 
-# Сохранение (раскомментируйте нужную строку)
 #animation.save('lorenz_attractor.gif', writer='pillow', fps=60)  # Для GIF
+#animation.save('lorenz_attractor.mp4', writer='ffmpeg', fps=30)  # Для MP4
 plt.legend()
 plt.show()
-#animation.save('lorenz_attractor.mp4', writer='ffmpeg', fps=30)  # Для MP4
+
