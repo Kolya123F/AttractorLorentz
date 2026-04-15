@@ -16,13 +16,9 @@ def f(sigma, r, b, x, y, z):
     return np.array([f1(sigma, x, y, z), f2(r, x, y, z), f3(b, x, y, z)])
 
 #Начальные условия
-x_01 = 1
-y_01 = 1
-z_01 = 1
-
-x_02 = 1 + 0.00001
-y_02 = 1
-z_02 = 1
+x_0 = 1
+y_0 = 1
+z_0 = 1
 
 #Число точек
 number = 40000
@@ -54,52 +50,18 @@ def solve(sigma, r, b, x0, y0, z0, number, T):
 
     return t, x, y, z
 
-fig = plt.figure(figsize=(10, 8))
-ax = fig.add_subplot(111, projection='3d')
+t, x, y, z = solve(sigma, r, b, x_0, y_0, z_0, number, T)
 
-ax.set_xlabel('x')
-ax.set_ylabel('y')
-ax.set_zlabel('z')
+#Решение
+fig, ax = plt.subplots(1, 1, figsize=(14, 6))
+ax.plot(t, x, linewidth=0.3, color='blue', alpha=0.7, label = 'x')
+ax.plot(t, y, linewidth=0.3, color='red', alpha=0.7, label = 'y')
+ax.plot(t, z, linewidth=0.3, color='black', alpha=0.7, label = 'z')
 
-t, x1, y1, z1 = solve(sigma, r, b, x_01, y_01, z_01, number, T)
-t, x2, y2, z2 = solve(sigma, r, b, x_02, y_02, z_02, number, T)
+ax.set_xlabel('t')
+ax.set_ylabel('x, y, z')
+ax.set_title('Аттактор Лоренца')
+ax.grid(True, alpha=0.3)
 
-ax.set_xlim([np.min(x1), np.max(x1)])
-ax.set_ylim([np.min(y1), np.max(y1)])
-ax.set_zlim([np.min(z1), np.max(z1)])
-
-animated_line_1, = ax.plot([], [], [], linewidth=0.5, linestyle='--', color='blue', label = r'$x_0 = 1 \text{, } y_0 = 1 \text{, } z_0 = 1$')
-animated_line_2, = ax.plot([], [], [], linewidth=0.5, linestyle='--', color='green', label = r'$x_0 = 1 + 10^{-5}  \text{, } y_0 = 1 \text{, } z_0 = 1$')
-
-point_1, = ax.plot([], [], [], 'bo', markersize=3)
-point_2, = ax.plot([], [], [], 'go', markersize=3)
-
-def update(frame):
-    animated_line_1.set_data(x1[:frame], y1[:frame])
-    animated_line_2.set_data(x2[:frame], y2[:frame])
-    animated_line_1.set_3d_properties(z1[:frame])
-    animated_line_2.set_3d_properties(z2[:frame])
-    
-    point_1.set_data([x1[frame]], [y1[frame]])
-    point_2.set_data([x2[frame]], [y2[frame]])
-    point_1.set_3d_properties([z1[frame]])
-    point_2.set_3d_properties([z2[frame]])
-
-    ax.set_title(f'Аттрактор Лоренца: $\sigma = 10 \\text{{, }} r = 28 \\text{{, }} b = 8/3$\nВремя: {t[frame]:.2f} из {t[-1]:.1f}')
-    
-    return animated_line_1, point_1, animated_line_2, point_2
-
-animation = FuncAnimation(
-    fig=fig, 
-    func=update, 
-    frames=range(0, number, 30), 
-    interval=20,  # Интервал между кадрами в мс
-    blit=False,   # blit=True может вызвать проблемы в 3D, оставляем False
-    repeat=True   # Зациклить анимацию
-)
-
-#animation.save('lorenz_attractor.gif', writer='pillow', fps=60)  # Для GIF
-#animation.save('lorenz_attractor.mp4', writer='ffmpeg', fps=30)  # Для MP4
-plt.legend()
+ax.legend()
 plt.show()
-
