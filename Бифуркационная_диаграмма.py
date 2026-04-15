@@ -2,17 +2,18 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
 
-def f1(x, y, z):
-    return - y - z
+#Правая часть системы диффуров
+def f1(sigma, x, y, z):
+    return sigma * (y - x)
 
-def f2(a, x, y, z):
-    return x + a * y
+def f2(r, x, y, z):
+    return x * (r - z) - y
 
-def f3(b, c, x, y, z):
-    return b + z * (x - c)
+def f3(b, x, y, z):
+    return x * y - b * z
 
-def f(a, b, c, x, y, z):
-    return np.array([f1(x, y, z), f2(a, x, y, z), f3(b, c, x, y, z)])
+def f(sigma, r, b, x, y, z):
+    return np.array([f1(sigma, x, y, z), f2(r, x, y, z), f3(b, x, y, z)])
 
 #Начальные условия
 x_0 = 1
@@ -49,7 +50,7 @@ def solve(sigma, r, b, x0, y0, z0, number, T):
 
     return t, x, y, z
 
-r_vals = np.arange(0, 1, 0.01)
+r_vals = np.arange(23.77, 23.81, 0.00001)
 
 x_max = []
 for r in r_vals:
@@ -66,5 +67,5 @@ for r, max in zip(r_vals, x_max):
     plt.scatter([r]*len(max), max, s=0.5, color='black', alpha=0.3)
 plt.xlabel('r')
 plt.ylabel('Максимумы x')
-plt.title('Бифуркационная диаграмма аттрактора Рёсслера')
+plt.title('Бифуркационная диаграмма аттрактора Лоренца')
 plt.show()
