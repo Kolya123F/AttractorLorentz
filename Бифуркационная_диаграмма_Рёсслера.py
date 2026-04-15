@@ -27,7 +27,7 @@ number = 5000
 T = 100
 
 #Параметры системы
-a, b, c = 0.2, 0.2, 3
+a, b, c = 0.2, 0.2, 5.7
 
 #Решаем численно систему диффуром методом Рунге-Кутта
 def solve(a, b, c, x0, y0, z0, number, T):
@@ -50,11 +50,11 @@ def solve(a, b, c, x0, y0, z0, number, T):
 
     return t, x, y, z
 
-c_vals = np.arange(0, 2, 0.01)
+b_vals = np.arange(0.01, 2, 0.001)
 
 x_max = []
-for c_val in c_vals:
-    t, x, y, z = solve(a, b, c_val, x_0, y_0, z_0, number, T)
+for b_val in b_vals:
+    t, x, y, z = solve(a, b_val, c, x_0, y_0, z_0, number, T)
     x = x[2500:]
     x_r_max = []
     for i in range(1, len(x) - 1):
@@ -63,7 +63,7 @@ for c_val in c_vals:
     x_max.append(x_r_max)
 
 plt.figure()
-for r, max in zip(c_vals, x_max):
+for r, max in zip(b_vals, x_max):
     plt.scatter([r]*len(max), max, s=0.5, color='black', alpha=0.3)
 plt.xlabel('r')
 plt.ylabel('Максимумы x')

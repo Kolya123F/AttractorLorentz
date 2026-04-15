@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
 
+#Правая часть системы диффуров
 def f1(x, y, z):
     return -y - z
 
@@ -15,12 +16,16 @@ def f(a, b, c, x, y, z):
     return np.array([f1(x, y, z), f2(a, x, y, z), f3(b, c, x, y, z)])
 
 #Начальные условия
-x_0 = 1
-y_0 = 1
-z_0 = 1
+x_01 = 1
+y_01 = 1
+z_01 = 1
+
+x_02 = 1 + 0.1
+y_02 = 1
+z_02 = 1
 
 #Число точек
-number = 5000
+number = 40000
 
 #Длительность
 T = 100
@@ -49,45 +54,45 @@ def solve(a, b, c, x0, y0, z0, number, T):
 
     return t, x, y, z
 
-t, x, y, z = solve(a, b, c, x_0, y_0, z_0, number, T)
-
 fig = plt.figure(figsize=(10, 8))
-ax = fig.add_subplot()
+ax = fig.add_subplot(111, projection='3d')
 
-ax.set_xlabel('t')
-ax.set_ylabel('x, y, z')
+ax.set_xlabel('x')
+ax.set_ylabel('y')
+ax.set_zlabel('z')
 
-lim_min = np.min([np.min(x), np.min(y), np.min(z)])
-lim_max = np.max([np.max(x), np.max(y), np.max(z)])
+t, x1, y1, z1 = solve(a, b, c, x_01, y_01, z_01, number, T)
+t, x2, y2, z2 = solve(a, b, c, x_02, y_02, z_02, number, T)
 
-ax.set_ylim([lim_min, lim_max])
-ax.set_xlim([0, T])
+ax.set_xlim([np.min(x1), np.max(x1)])
+ax.set_ylim([np.min(y1), np.max(y1)])
+ax.set_zlim([np.min(z1), np.max(z1)])
 
-animated_line_1, = ax.plot([], [], linewidth=0.5, linestyle='--', color='blue')
-animated_line_2, = ax.plot([], [], linewidth=0.5, linestyle='--', color='green')
-animated_line_3, = ax.plot([], [], linewidth=0.5, linestyle='--', color='red')
+animated_line_1, = ax.plot([], [], [], linewidth=0.5, linestyle='--', color='blue', label = r'$x_0 = 1 \text{, } y_0 = 1 \text{, } z_0 = 1$')
+#animated_line_2, = ax.plot([], [], [], linewidth=0.5, linestyle='--', color='green', label = r'$x_0 = 1 + 10^{-5}  \text{, } y_0 = 1 \text{, } z_0 = 1$')
 
-point_1, = ax.plot([], [], 'bo', markersize=3)
-point_2, = ax.plot([], [], 'go', markersize=3)
-point_3, = ax.plot([], [], 'ro', markersize=3)
+point_1, = ax.plot([], [], [], 'bo', markersize=3)
+#point_2, = ax.plot([], [], [], 'go', markersize=3)
 
 def update(frame):
-    animated_line_1.set_data(t[:frame], x[:frame])
-    animated_line_2.set_data(t[:frame], y[:frame])
-    animated_line_3.set_data(t[:frame], z[:frame])
+    animated_line_1.set_data(x1[:frame], y1[:frame])
+    #animated_line_2.set_data(x2[:frame], y2[:frame])
+    animated_line_1.set_3d_properties(z1[:frame])
+    #animated_line_2.set_3d_properties(z2[:frame])
     
-    point_1.set_data([t[frame]], [x[frame]])
-    point_2.set_data([t[frame]], [y[frame]])
-    point_3.set_data([t[frame]], [z[frame]])
+    point_1.set_data([x1[frame]], [y1[frame]])
+    #point_2.set_data([x2[frame]], [y2[frame]])
+    point_1.set_3d_properties([z1[frame]])
+    #point_2.set_3d_properties([z2[frame]])
+
+    ax.set_title(f'Аттрактор Рёсслера: $a = 0.2 \\text{{, }} b = 0.2 \\text{{, }} c = 3$\nВремя: {t[frame]:.2f} из {t[-1]:.1f}')
     
-    ax.set_title(f'Аттрактор Лоренца: $\sigma = 10 \\text{{, }} r = 28 \\text{{, }} b = 8/3$\nВремя: {t[frame]:.2f} из {t[-1]:.1f}')
-    
-    return animated_line_1, point_1, animated_line_2, point_2, animated_line_3, point_3
+    return animated_line_1, point_1#, animated_line_2, point_2
 
 animation = FuncAnimation(
     fig=fig, 
     func=update, 
-    frames=range(0, number, 30), 
+    frames=range(0, number, 50), 
     interval=20,  # Интервал между кадрами в мс
     blit=False,   # blit=True может вызвать проблемы в 3D, оставляем False
     repeat=True   # Зациклить анимацию
@@ -96,5 +101,5 @@ animation = FuncAnimation(
 #animation.save('lorenz_attractor.gif', writer='pillow', fps=60)  # Для GIF
 #animation.save('lorenz_attractor.mp4', writer='ffmpeg', fps=30)  # Для MP4
 plt.legend()
-plt.grid()
 plt.show()
+

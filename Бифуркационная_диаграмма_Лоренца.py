@@ -50,7 +50,7 @@ def solve(sigma, r, b, x0, y0, z0, number, T):
 
     return t, x, y, z
 
-r_vals = np.arange(23.77, 23.81, 0.00001)
+r_vals = np.arange(1, 30, 0.1)
 
 x_max = []
 for r in r_vals:
