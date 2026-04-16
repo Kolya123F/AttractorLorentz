@@ -50,7 +50,7 @@ def solve(a, b, c, x0, y0, z0, number, T):
 
     return t, x, y, z
 
-b_vals = np.arange(0.001, 2, 0.001)
+b_vals = np.arange(0.001, 2, 0.01)
 x_max = []
 for b_val in b_vals:
     t, x, y, z = solve(a, b_val, c, x_0, y_0, z_0, number, T)
