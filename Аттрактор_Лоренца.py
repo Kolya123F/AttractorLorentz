@@ -99,7 +99,7 @@ def update(frame):
 animation = FuncAnimation(
     fig=fig, 
     func=update, 
-    frames=range(0, number, 30), 
+    frames=range(0, number, 60), 
     interval=20,  # Интервал между кадрами в мс
     blit=False,   # blit=True может вызвать проблемы в 3D, оставляем False
     repeat=True   # Зациклить анимацию
@@ -110,6 +110,7 @@ animation = FuncAnimation(
 ax[1].plot(frequencies_x, amplitude_spectrum_x, 'b-', alpha=0.7, label='Преобразование Фурье от x(t)', linewidth=0.5)
 ax[1].plot(frequencies_y, amplitude_spectrum_y, 'g-', alpha=0.7, label='Преобразование Фурье от y(t)', linewidth=0.5)
 ax[1].plot(frequencies_z, amplitude_spectrum_z, 'r-', alpha=0.7, label='Преобразование Фурье от z(t)', linewidth=0.5)
+ax[1].set_yscale('log')
 ax[1].legend()
 ax[1].grid()
 ax[0].legend()
