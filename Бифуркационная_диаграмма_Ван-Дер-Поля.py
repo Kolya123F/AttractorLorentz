@@ -49,11 +49,11 @@ def solve(x_0, v_0, nu, alpha, omega, A, number, T):
 
 t, x, v = solve(x_0, v_0, nu, alpha, omega, A, number, T)
 
-r_vals = np.arange(0.1, 15, 0.1)
+r_vals = np.arange(0.1, 5, 0.1)
 
 x_max = []
 for r in r_vals:
-    t, x, v = solve(x_0, v_0, r, alpha, omega, A, number, T)
+    t, x, v = solve(x_0, v_0, nu, alpha, r, A, number, T)
     x = x[2500:]
     x_r_max = []
     for i in range(1, len(x) - 1):

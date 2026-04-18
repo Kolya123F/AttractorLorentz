@@ -21,7 +21,7 @@ y_0 = 1
 z_0 = 1
 
 #Число точек
-number = 5000
+number = 100000
 
 #Длительность
 T = 100
@@ -50,7 +50,7 @@ def solve(sigma, r, b, x0, y0, z0, number, T):
 
     return t, x, y, z
 
-r_vals = np.arange(1, 30, 0.1)
+r_vals = np.arange(0.01, 30, 0.1)
 
 x_max = []
 for r in r_vals:
@@ -68,4 +68,5 @@ for r, max in zip(r_vals, x_max):
 plt.xlabel('r')
 plt.ylabel('Максимумы x')
 plt.title('Бифуркационная диаграмма аттрактора Лоренца')
+plt.grid()
 plt.show()

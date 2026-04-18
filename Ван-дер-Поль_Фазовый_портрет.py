@@ -22,10 +22,10 @@ number = 50000
 T = 100
 
 #Параметры системы
-nu = 5
+nu = 0.2
 alpha = 0.1
-omega = 5
-A = 0.1
+omega = 2
+A = 2
 
 #Решаем численно систему диффуром методом Рунге-Кутта
 def solve(x_0, v_0, nu, alpha, omega, A, number, T):

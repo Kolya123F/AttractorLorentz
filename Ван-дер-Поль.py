@@ -16,16 +16,16 @@ x_0 = 2
 v_0 = 0
 
 #Число точек
-number = 50000
+number = 5000
 
 #Длительность
 T = 100
 
 #Параметры системы
-nu = 8.53
-alpha = 0
-omega = 2.10
-A = 1.2
+nu = 0.2
+alpha = 0.1
+omega = 2
+A = 2
 
 #Решаем численно систему диффуром методом Рунге-Кутта
 def solve(x_0, v_0, nu, alpha, omega, A, number, T):
@@ -91,7 +91,7 @@ animation = FuncAnimation(
 #animation.save('lorenz_attractor.gif', writer='pillow', fps=60)  # Для GIF
 #animation.save('lorenz_attractor.mp4', writer='ffmpeg', fps=30)  # Для MP4
 ax[1].plot(frequencies_x, amplitude_spectrum_x, 'b-', alpha=0.7, label='Преобразование Фурье от x(t)', linewidth=0.5)
-ax[1].set_yscale('log')
+#ax[1].set_yscale('log')
 ax[1].legend()
 ax[1].grid()
 ax[0].legend()
