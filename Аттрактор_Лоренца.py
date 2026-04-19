@@ -25,7 +25,7 @@ y_0 = 1
 z_0 = 1
 
 #Число точек
-number = 40000
+number = 100000
 
 #Длительность
 T = 30
@@ -146,14 +146,18 @@ animation = FuncAnimation(
 
 #Отрисовываем фурье-спектры
 ax[1].plot(frequencies_x, amplitude_spectrum_x, 'b-', 
-           alpha=0.7, label='Преобразование Фурье от x(t)', linewidth=0.5)
+           alpha=0.7, label='Преобразование Фурье от x(t)', linewidth=1)
 ax[1].plot(frequencies_y, amplitude_spectrum_y, 'g-', 
            alpha=0.7, label='Преобразование Фурье от y(t)', linewidth=0.5)
 ax[1].plot(frequencies_z, amplitude_spectrum_z, 'r-', 
-           alpha=0.7, label='Преобразование Фурье от z(t)', linewidth=0.5)
+           alpha=0.7, label='Преобразование Фурье от z(t)', linewidth=0.25)
 
-#Лог. масштаб по оси Y для фурье-спектра
+#Лог. масштаб по осям Y и X  для фурье-спектра
 ax[1].set_yscale('log')
+ax[1].set_xscale('log')
+
+#Обзываем график фурье-спектров
+ax[1].set_title('Фурье-спектр временных зависимостей координат')
 
 #Обзываем оси для фурье-спектра
 ax[1].set_xlabel('$\omega$')

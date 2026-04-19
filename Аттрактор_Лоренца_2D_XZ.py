@@ -61,100 +61,77 @@ def solve(sigma, r, b, x0, y0, z0, number, T):
 
     return t, x, y, z
 
-#Решения с разными начальными условиями 
+#Решения с разными начальными условиями
 t, x1, y1, z1 = solve(sigma, r, b, x_01, y_01, z_01, number, T)
 t, x2, y2, z2 = solve(sigma, r, b, x_02, y_02, z_02, number, T)
 
-#Расстояние между решениями
-dist = np.sqrt((x1-x2) ** 2 + (y1-y2) ** 2 + (z1 - z2) ** 2)
-
 #Создаем область для отрисовки графиков
 fig = plt.figure(figsize=(10, 8))
-ax1 = fig.add_subplot(121, projection='3d')
-ax2 = fig.add_subplot(122)
+ax = fig.add_subplot()
 
-#Обзываем оси для фазовой кривой в 3D 
-ax1.set_xlabel('x')
-ax1.set_ylabel('y')
-ax1.set_zlabel('z')
+#Обзываем оси для фазовой кривой в 2D 
+ax.set_xlabel('x')
+ax.set_ylabel('z')
 
-#Обзываем оси для временной зависимости расстояния между решениями
-ax2.set_xlabel('t')
-ax2.set_ylabel('dist')
+#Устанавливаем границы для фазовых кривых
+ax.set_xlim([np.min(x1), np.max(x1)])
+ax.set_ylim([np.min(z1), np.max(z1)])
 
-#Устанавливаем границы для графиков
-ax1.set_xlim([np.min(x1), np.max(x1)])
-ax1.set_ylim([np.min(y1), np.max(y1)])
-ax1.set_zlim([np.min(z1), np.max(z1)])
-
-ax2.set_xlim([0, T])
-ax2.set_ylim([-1, np.max(dist)])
-
-animated_line_1, = ax1.plot([], [], [], linewidth=0.5, linestyle='--', 
+animated_line_1, = ax.plot([], [], linewidth=0.5, linestyle='--', 
                            color='blue', 
                            label = (rf'$x_0 = {x_01}$'
-                                    rf'$\text{{, }} y_0 = {y_01}$'
                                     rf'$\text{{, }} z_0 = {z_01}$'))
-point_1, = ax1.plot([], [], [], 'bo', markersize=3)
+point_1, = ax.plot([], [], 'bo', markersize=3)
 
-animated_line_2, = ax1.plot([], [], [], linewidth=0.5, linestyle='-', 
+animated_line_2, = ax.plot([], [], linewidth=0.5, linestyle='-', 
                            color='green', 
                            label = (rf'$x_0 = {x_02}$'
-                                    rf'$\text{{, }} y_0 = {y_02}$'
                                     rf'$\text{{, }} z_0 = {z_02}$'))
-point_2, = ax1.plot([], [], [], 'go', markersize=3)
-
-animated_line, = ax2.plot([], [], linewidth=0.5, linestyle='-', color='black')
+point_2, = ax.plot([], [], 'go', markersize=3)
 
 #Точки равновесия
-x_pos_1 = round(np.sqrt(b * (r - 1)), 2)
+x_pos_1 = round(np.sqrt(b * (r - 1)), 5)
 y_pos_1 = x_pos_1
 z_pos_1 = r - 1
 
-x_pos_2 = -round(np.sqrt(b * (r - 1)), 2)
+x_pos_2 = -round(np.sqrt(b * (r - 1)), 5)
 y_pos_2 = x_pos_2
 z_pos_2 = r - 1
 
-equilibrium_positiona_1 = ax1.plot([x_pos_1], [y_pos_1], [z_pos_1], 'o', 
+equilibrium_positiona_1 = ax.plot([x_pos_1], [z_pos_1], 'o', 
                                   color = 'black', markersize=4, 
-                                  label = f'{(x_pos_1, y_pos_1, z_pos_1)}')
+                                  label = f'{(x_pos_1, z_pos_1)}')
 
-equilibrium_positiona_2 = ax1.plot([x_pos_2], [y_pos_2], [z_pos_2], 'o', 
+equilibrium_positiona_2 = ax.plot([x_pos_2], [z_pos_2], 'o', 
                                   color = 'gray', markersize=4, 
-                                  label = f'{(x_pos_2, y_pos_2, z_pos_2)}')
+                                  label = f'{(x_pos_2,  z_pos_2)}')
 
 def update(frame):
-    animated_line_1.set_data(x1[:frame], y1[:frame])
-    animated_line_1.set_3d_properties(z1[:frame])
-    point_1.set_data([x1[frame]], [y1[frame]])
-    point_1.set_3d_properties([z1[frame]])
+    animated_line_1.set_data(x1[:frame], z1[:frame])
+    animated_line_2.set_data(x2[:frame], z2[:frame])
+    
+    point_1.set_data([x1[frame]], [z1[frame]])
+    point_2.set_data([x2[frame]], [z2[frame]])
 
-    animated_line_2.set_data(x2[:frame], y2[:frame])
-    animated_line_2.set_3d_properties(z2[:frame])
-    point_2.set_data([x2[frame]], [y2[frame]])
-    point_2.set_3d_properties([z2[frame]])
-
-    animated_line.set_data(t[:frame], dist[:frame])
-    ax1.set_title(f'Аттрактор Лоренца:\n'
+    ax.set_title(f'Аттрактор Лоренца:\n'
                 f'$\sigma = 10 \\text{{, }}$'
                 f'$r = 28 \\text{{, }}$'
                 f'$b = 8/3$\n'
                 f'Шаг дискретизации: ${dt}$\n'
                 f'Время: {t[frame]:.2f} из {t[-1]:.1f}')
-    return animated_line_1, point_1, animated_line_2, point_2, animated_line
+    return animated_line_1, point_1, animated_line_2, point_2
 
 animation = FuncAnimation(
     fig=fig, 
     func=update, 
-    frames=range(0, number, 1000), 
-    interval=20,  # Интервал между кадрами в мс
-    blit=False,   # blit=True может вызвать проблемы в 3D, оставляем False
-    repeat=False   # Зациклить анимацию
+    frames=range(0, number, 500), 
+    interval=20,
+    blit=False,
+    repeat=False # Зациклить анимацию
 )
 
 #animation.save('lorenz_attractor.gif', writer='pillow', fps=30)  # Для GIF
 #animation.save('lorenz_attractor.mp4', writer='ffmpeg', fps=30)  # Для MP4
-ax1.legend()
-ax2.set_title('Временная зависимость расстояния между решениями')
-ax2.grid()
+plt.legend()
+plt.grid()
 plt.show()
