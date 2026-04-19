@@ -157,4 +157,14 @@ animation = FuncAnimation(
 ax1.legend()
 ax2.set_title('Временная зависимость расстояния между решениями')
 ax2.grid()
+
+update(len(t) - 1)  # Обновляем до последнего кадра
+
+# Сохраняем в высоком разрешении
+plt.savefig('Аттрактор_Лоенца_3D.png', 
+            dpi=300,  # Высокое разрешение
+            bbox_inches='tight',  # Обрезаем белые поля
+            facecolor='white', 
+            edgecolor='none')
+
 plt.show()

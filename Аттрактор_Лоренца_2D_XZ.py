@@ -134,4 +134,14 @@ animation = FuncAnimation(
 #animation.save('lorenz_attractor.mp4', writer='ffmpeg', fps=30)  # Для MP4
 plt.legend()
 plt.grid()
+
+update(len(t) - 1)  # Обновляем до последнего кадра
+
+# Сохраняем в высоком разрешении
+plt.savefig('Аттрактор_Лоенца_2D_XZ.png', 
+            dpi=300,  # Высокое разрешение
+            bbox_inches='tight',  # Обрезаем белые поля
+            facecolor='white', 
+            edgecolor='none')
+
 plt.show()
