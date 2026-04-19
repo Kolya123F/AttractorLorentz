@@ -58,7 +58,7 @@ def solve(sigma, r, b, x0, y0, z0, number, T):
 t, x, y, z = solve(sigma, r, b, x_0, y_0, z_0, number, T)
 
 #Создаем область для отрисовки графика
-fig, ax = plt.subplots(2, 1, figsize=(10, 10))
+fig, ax = plt.subplots(2, 1, figsize=(19.2, 10.8))
 
 #Обзываем оси
 ax[0].set_xlabel('t')
@@ -168,4 +168,14 @@ ax[1].grid()
 
 ax[0].legend()
 ax[0].grid()
+
+update(len(t) - 1)  # Обновляем до последнего кадра
+
+# Сохраняем в высоком разрешении
+plt.savefig('lorenz_attractor_final.png', 
+            dpi=300,  # Высокое разрешение
+            bbox_inches='tight',  # Обрезаем белые поля
+            facecolor='white', 
+            edgecolor='none')
+
 plt.show()
