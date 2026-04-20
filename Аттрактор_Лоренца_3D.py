@@ -1,6 +1,6 @@
 #Импорт необходимых библиотек
 import matplotlib.pyplot as plt
-from matplotlib.animation import FuncAnimation
+from matplotlib.animation import FuncAnimation, FFMpegWriter
 import numpy as np
 
 #Правая часть системы диффуров
@@ -69,7 +69,7 @@ t, x2, y2, z2 = solve(sigma, r, b, x_02, y_02, z_02, number, T)
 dist = np.sqrt((x1-x2) ** 2 + (y1-y2) ** 2 + (z1 - z2) ** 2)
 
 #Создаем область для отрисовки графиков
-fig = plt.figure(figsize=(10, 8))
+fig = plt.figure(figsize=(12, 6))
 ax1 = fig.add_subplot(121, projection='3d')
 ax2 = fig.add_subplot(122)
 
@@ -146,8 +146,8 @@ def update(frame):
 animation = FuncAnimation(
     fig=fig, 
     func=update, 
-    frames=range(0, number, 1000), 
-    interval=20,  # Интервал между кадрами в мс
+    frames=range(0, number, 30), 
+    interval=30/60,  # Интервал между кадрами в мс
     blit=False,   # blit=True может вызвать проблемы в 3D, оставляем False
     repeat=False   # Зациклить анимацию
 )
@@ -157,6 +157,15 @@ animation = FuncAnimation(
 ax1.legend()
 ax2.set_title('Временная зависимость расстояния между решениями')
 ax2.grid()
+
+writer = FFMpegWriter(
+    fps=60, 
+    metadata=dict(artist='Me'), 
+    bitrate=5000,  # Высокий битрейт для лучшего качества
+    codec='libx264',
+    extra_args=['-preset', 'slow']  # Медленное кодирование для лучшего качества
+)
+animation.save('lorenz_attractor_60fps.mp4', writer=writer, dpi=300)
 
 update(len(t) - 1)  # Обновляем до последнего кадра
 
