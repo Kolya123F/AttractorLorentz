@@ -32,6 +32,8 @@ Parameters used in the project:
 
 ![Lorenz attractor](Картинки+видео/lorenz_attractor.gif)
 
+### Solve and Fourier Spectrum
+
 ![FFT](Картинки+видео/График_решений_Фурье-спектр.png)
 
 ### Bifurcation Diagram
