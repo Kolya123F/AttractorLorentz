@@ -32,6 +32,16 @@ Parameters used in the project:
 
 ![Lorenz attractor](Картинки+видео/lorenz_attractor.gif)
 
+![FFT](Картинки+видео/График_решений_Фурье-спектр.png)
+
+### Bifurcation Diagram
+
+![Bifurcation](Картинки+видео/Бифуркационная_диаграмма.png)
+
+### Butterfly
+
+![Butterfly](Картинки+видео/Бабочка.png)
+
 ## Installation
 
 ```bash
