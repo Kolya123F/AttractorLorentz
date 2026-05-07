@@ -44,4 +44,5 @@ Parameters used in the project:
 ## Author
 
 Николай Тодоров
+
 3 курс ФОПФ МФТИ
