@@ -31,3 +31,17 @@ Parameters used in the project:
 - $b = 8/3$
 
 ![Lorenz attractor](Картинки+видео/lorenz_attractor.gif)
+
+## Technologies
+
+- Python
+- NumPy
+- SciPy
+- Matplotlib
+
+---
+
+## Author
+
+Николай Тодоров
+3 курс ФОПФ МФТИ
