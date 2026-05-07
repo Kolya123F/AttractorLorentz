@@ -1,4 +1,4 @@
-# Lorenz Attractor Simulation
+# Изучение аттрактора Лоренца с помощью численных методов
 
 Численное исследование системы Лоренца с использованием метода Рунге–Кутты 4 порядка.
 
@@ -8,9 +8,9 @@
 - FFT-анализ,
 - построение бифуркационной диаграммы.
 
-## Mathematical Model
+## Математическая модель
 
-The Lorenz system:
+Система Лоренца:
 
 $$
 \dot{x} = \sigma(y - x)
@@ -24,25 +24,24 @@ $$
 \dot{z} = xy - bz
 $$
 
-Parameters used in the project:
+Используемые параметры:
 
 - $\sigma = 10$
 - $r = 28$
 - $b = 8/3$
 
 ![Lorenz attractor](Картинки+видео/lorenz_attractor.gif)
-Рис. 1: Траектория системы Лоренца в фазовом пространстве
 
-### Solve and Fourier Spectrum
+### Решение и его фурье-спектр
 
 ![FFT](Картинки+видео/График_решений_Фурье-спектр.png)
 
 
-### Bifurcation Diagram
+### Бифуркационная диаграмма
 
 ![Bifurcation](Картинки+видео/Бифуркационная_диаграмма.png)
 
-### Butterfly
+### Бабочки
 
 ![Butterfly](Картинки+видео/Бабочка.png)
 
@@ -56,7 +55,7 @@ pip install -r requirements.txt
 
 ---
 
-## Technologies
+## Используемые библиотеки
 
 - Python
 - NumPy
@@ -65,7 +64,7 @@ pip install -r requirements.txt
 
 ---
 
-## Author
+## Автор
 
 Николай Тодоров
 
