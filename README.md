@@ -31,10 +31,12 @@ Parameters used in the project:
 - $b = 8/3$
 
 ![Lorenz attractor](Картинки+видео/lorenz_attractor.gif)
+Рис. 1: Траектория системы Лоренца в фазовом пространстве
 
 ### Solve and Fourier Spectrum
 
 ![FFT](Картинки+видео/График_решений_Фурье-спектр.png)
+
 
 ### Bifurcation Diagram
 
