@@ -32,6 +32,16 @@ Parameters used in the project:
 
 ![Lorenz attractor](Картинки+видео/lorenz_attractor.gif)
 
+## Installation
+
+```bash
+git clone https://github.com/Kolya123F/AttractorLorentz.git
+cd AttractorLorentz
+pip install -r requirements.txt
+```
+
+---
+
 ## Technologies
 
 - Python
