@@ -1,0 +1,13 @@
+{
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/d:\\ПроектВычматы\\LaTex\\ПРОЕКТ.aux": true,
+        "**/d:\\ПроектВычматы\\LaTex\\ПРОЕКТ.log": true,
+        "**/d:\\ПроектВычматы\\LaTex\\ПРОЕКТ.gz": true,
+        "**/d:\\ПроектВычматы\\LaTex\\ПРОЕКТ.out": true
+    }
+}
